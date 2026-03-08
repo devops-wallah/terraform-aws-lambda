@@ -1,3 +1,4 @@
 output "function_arn" {
-  value = aws_lambda_function.lambda_function.arn
+  value       = aws_lambda_function.lambda_function.arn
+  description = "The lambda function ARN"
 }
