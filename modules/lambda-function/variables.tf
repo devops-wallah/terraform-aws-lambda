@@ -39,8 +39,8 @@ variable "timeout" {
 }
 
 variable "dead_letter_config" {
-  type = map({
-    target_arn = string
+  type = object({
+    target_arb = string
   })
   description = "The dead letter config for the lambda function"
   default     = null
@@ -79,9 +79,9 @@ variable "package_type" {
 
 variable "image_config" {
   type = object({
-    command           = string
-    entry_point       = string
-    working_directory = string
+    command           = optional(string)
+    entry_point       = optional(string)
+    working_directory = optional(string)
   })
   description = "image config for docker image"
   default     = null
@@ -93,9 +93,9 @@ variable "image_uri" {
   default     = null
 }
 
-variable "kms_key_arm" {
+variable "kms_key_arn" {
   type        = string
-  description = "kms_key_arm"
+  description = "kms_key_arn"
   default     = null
 }
 
@@ -119,5 +119,62 @@ variable "logging_config" {
     system_log_level      = optional(string)
   })
   description = "logging_config"
+  default     = null
+}
+
+variable "architectures" {
+  type        = list(string)
+  description = "CPU architectures of  system."
+  default     = null
+}
+
+variable "publish" {
+  type        = string
+  description = "should pusbhish new version of function"
+  default     = null
+}
+
+variable "reserved_concurrent_executions" {
+  type        = number
+  description = "reserved_concurrent_executions  number"
+  default     = null
+}
+
+variable "s3_bucket" {
+  type        = string
+  description = "s3 bucket name"
+  default     = null
+}
+
+variable "s3_key" {
+  type        = string
+  description = "s3 object key"
+  default     = null
+}
+
+variable "s3_object_version" {
+  type        = string
+  description = "version of object"
+  default     = null
+}
+
+variable "tags" {
+  type        = map(any)
+  description = "function tags"
+  default     = null
+}
+
+variable "vpc_config" {
+  type = object({
+    security_group_ids          = list(string)
+    subnet_ids                  = list(string)
+    ipv6_allowed_for_dual_stack = optional(bool)
+  })
+  default = null
+}
+
+variable "source_code_hash" {
+  type        = string
+  description = "Hash to trigger function updated on code chnage"
   default     = null
 }
